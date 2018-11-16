@@ -15,6 +15,4 @@ public class PanelAir extends JPanel {
             air.DrawAir(g);
         }
     }
-
-
 }

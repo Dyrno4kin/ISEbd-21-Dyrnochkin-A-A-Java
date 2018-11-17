@@ -23,7 +23,8 @@ public class FormAir {
     private JButton buttonDown;
     private JButton buttonLeft;
     private JButton buttonRight;
-    private JButton buttonCreate;
+    private JButton buttonCreateAir;
+    private JButton buttonCreateAirBus;
 
     /**
      * Launch the application.
@@ -113,18 +114,31 @@ public class FormAir {
                 UpDate();
             }
         });
-        buttonCreate = new JButton("Создать");
-        buttonCreate.setBounds(0, 0, 81, 25);
-        panel.add(buttonCreate);
-        buttonCreate.addActionListener(new ActionListener() {
+        buttonCreateAir = new JButton("Создать самолет");
+        buttonCreateAir.setBounds(0, 0, 160, 25);
+        panel.add(buttonCreateAir);
+        buttonCreateAir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 Random rnd = new Random();
-                PanelAir.air = new Air(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.GRAY, Color.BLUE);
+                PanelAir.air = new Air(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.GRAY);
                 PanelAir.initialization = true;
-                PanelAir.air.SetPosition(rnd.nextInt(90) + 10, rnd.nextInt(90) + 10, panel.getWidth(), panel.getHeight());
+                PanelAir.air.SetPosition(rnd.nextInt(90) + 10, rnd.nextInt(90) + 60, panel.getWidth(), panel.getHeight());
                 UpDate();
             }
         });
+
+        buttonCreateAirBus = new JButton("Создать аэробус");
+        buttonCreateAirBus.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                Random rnd = new Random();
+                PanelAir.air = new AirBus(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.GRAY, Color.BLUE);
+                PanelAir.initialization = true;
+                PanelAir.air.SetPosition(rnd.nextInt(90) + 10, rnd.nextInt(90) + 60, panel.getWidth(), panel.getHeight());
+                UpDate();
+            }
+        });
+        buttonCreateAirBus.setBounds(180, 0, 160, 25);
+        panel.add(buttonCreateAirBus);
     }
 
     private void UpDate() {

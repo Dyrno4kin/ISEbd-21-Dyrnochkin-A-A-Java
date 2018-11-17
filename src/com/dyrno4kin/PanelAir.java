@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 public class PanelAir extends JPanel {
-    public static Air air;
+    public static IAir air;
     public static boolean initialization = false;
 
     @Override

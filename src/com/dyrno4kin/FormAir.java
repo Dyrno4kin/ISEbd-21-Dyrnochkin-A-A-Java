@@ -115,14 +115,14 @@ public class FormAir {
             }
         });
         buttonCreateAir = new JButton("Создать самолет");
-        buttonCreateAir.setBounds(0, 0, 81, 25);
+        buttonCreateAir.setBounds(0, 0, 160, 25);
         panel.add(buttonCreateAir);
         buttonCreateAir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 Random rnd = new Random();
                 PanelAir.air = new Air(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.GRAY);
                 PanelAir.initialization = true;
-                PanelAir.air.SetPosition(rnd.nextInt(90) + 10, rnd.nextInt(90) + 10, panel.getWidth(), panel.getHeight());
+                PanelAir.air.SetPosition(rnd.nextInt(90) + 10, rnd.nextInt(90) + 60, panel.getWidth(), panel.getHeight());
                 UpDate();
             }
         });
@@ -133,11 +133,11 @@ public class FormAir {
                 Random rnd = new Random();
                 PanelAir.air = new AirBus(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.GRAY, Color.BLUE);
                 PanelAir.initialization = true;
-                PanelAir.air.SetPosition(rnd.nextInt(90) + 10, rnd.nextInt(90) + 10, panel.getWidth(), panel.getHeight());
+                PanelAir.air.SetPosition(rnd.nextInt(90) + 10, rnd.nextInt(90) + 60, panel.getWidth(), panel.getHeight());
                 UpDate();
             }
         });
-        buttonCreateAirBus.setBounds(301, 0, 253, 25);
+        buttonCreateAirBus.setBounds(180, 0, 160, 25);
         panel.add(buttonCreateAirBus);
     }
 

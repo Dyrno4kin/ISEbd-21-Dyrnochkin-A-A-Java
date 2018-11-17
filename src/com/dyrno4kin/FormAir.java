@@ -71,7 +71,7 @@ public class FormAir {
                 if (PanelAir.initialization) {
                     PanelAir.air.MoveTransport(Direction.Right);
                 }
-                RedrawUI();
+                UpDate();
             }
         });
         buttonDown = new JButton("");
@@ -84,7 +84,7 @@ public class FormAir {
                 if (PanelAir.initialization) {
                     PanelAir.air.MoveTransport(Direction.Down);
                 }
-                RedrawUI();
+                UpDate();
             }
         });
         buttonLeft = new JButton("");
@@ -97,7 +97,7 @@ public class FormAir {
                 if (PanelAir.initialization) {
                     PanelAir.air.MoveTransport(Direction.Left);
                 }
-                RedrawUI();
+                UpDate();
             }
         });
         buttonUp = new JButton("");
@@ -110,7 +110,7 @@ public class FormAir {
                 if (PanelAir.initialization) {
                     PanelAir.air.MoveTransport(Direction.Up);
                 }
-                RedrawUI();
+                UpDate();
             }
         });
         buttonCreate = new JButton("Создать");
@@ -122,12 +122,12 @@ public class FormAir {
                 PanelAir.air = new Air(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.GRAY, Color.BLUE);
                 PanelAir.initialization = true;
                 PanelAir.air.SetPosition(rnd.nextInt(90) + 10, rnd.nextInt(90) + 10, panel.getWidth(), panel.getHeight());
-                RedrawUI();
+                UpDate();
             }
         });
     }
 
-    private void RedrawUI() {
+    private void UpDate() {
         panel.repaint();
     }
 }

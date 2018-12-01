@@ -1,31 +1,19 @@
 package com.dyrno4kin;
 
 import java.awt.*;
-
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import javax.swing.SwingConstants;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
-import java.lang.Object;
-import java.util.Random;
-
-
 
 public class FormHangar {
 
     private JFrame frame;
     private JPanel panel;
-
-
     private JTextField maskedTextBox1;
     Hangar<IAir> hangar;
     private PanelAir pictureBoxTakeAir;
@@ -64,9 +52,7 @@ public class FormHangar {
         panelHangar= new PanelHangar();
         panelHangar .setBounds(10, 11, 768, 432);
         frame.getContentPane().add(panelHangar);
-
         hangar = panelHangar.getHangar();
-
         JPanel pictureBoxHangar = new JPanel();
         pictureBoxHangar.setBounds(0, 0, 778, 466);
         frame.getContentPane().add(pictureBoxHangar);

@@ -1,7 +1,6 @@
 package com.dyrno4kin;
 
 import java.awt.Graphics;
-
 import javax.swing.JPanel;
 
 public class PanelAir extends JPanel {

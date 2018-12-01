@@ -9,13 +9,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JList;
+import javax.swing.DefaultListModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class FormHangar {
 
     private JFrame frame;
     private JPanel panel;
+    private JList listBoxLevels;
+    private DefaultListModel model;
     private JTextField maskedTextBox1;
-    Hangar<IAir> hangar;
+    MultiLevelHangar hangar;
     private PanelAir pictureBoxTakeAir;
     private PanelHangar panelHangar;
     /**
@@ -50,7 +56,7 @@ public class FormHangar {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         panelHangar= new PanelHangar();
-        panelHangar .setBounds(10, 11, 768, 432);
+        panelHangar .setBounds(0, 11, 777, 443);
         frame.getContentPane().add(panelHangar);
         hangar = panelHangar.getHangar();
         JPanel pictureBoxHangar = new JPanel();
@@ -62,12 +68,11 @@ public class FormHangar {
             public void actionPerformed(ActionEvent arg0) {
                 Color mainColor = JColorChooser.showDialog(null, "Choose a color", Color.GRAY);
                 Air air = new Air(100, 1000, mainColor);
-                int place = hangar.Plus(air);
-                PanelAir.initialization = true;
+                int place = hangar.getHangar(listBoxLevels.getSelectedIndex()).Plus(air);
                 panelHangar.repaint();
             }
         });
-        buttonSetAir.setBounds(790, 13, 118, 40);
+        buttonSetAir.setBounds(790, 141, 118, 41);
         frame.getContentPane().add(buttonSetAir);
 
         JButton buttonSetAirBus = new JButton("Аэробус");
@@ -76,12 +81,11 @@ public class FormHangar {
                 Color mainColor = JColorChooser.showDialog(null, "Choose a color", Color.GRAY);
                 Color dopColor = JColorChooser.showDialog(null, "Choose a color", Color.GRAY);
                 AirBus air = new AirBus(100, 1000, mainColor, dopColor);
-                int place = hangar.Plus(air);
-                PanelAir.initialization = true;
+                int place = hangar.getHangar(listBoxLevels.getSelectedIndex()).Plus(air);
                 panelHangar.repaint();
             }
         });
-        buttonSetAirBus.setBounds(790, 104, 118, 40);
+        buttonSetAirBus.setBounds(790, 182, 118, 41);
         frame.getContentPane().add(buttonSetAirBus);
 
         JPanel panel = new JPanel();
@@ -110,7 +114,7 @@ public class FormHangar {
         buttonTakeAir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!maskedTextBox1.getText().equals("")) {
-                    IAir air = hangar.Minus(Integer.parseInt(maskedTextBox1.getText()));
+                    IAir air = hangar.getHangar(listBoxLevels.getSelectedIndex()).Minus(Integer.parseInt(maskedTextBox1.getText()));
                     if (air != null) {
                         air.SetPosition(5,50, pictureBoxTakeAir.getWidth(), pictureBoxTakeAir.getHeight());
                         pictureBoxTakeAir.setAir(air);
@@ -125,5 +129,24 @@ public class FormHangar {
         });
         buttonTakeAir.setBounds(22, 64, 97, 25);
         panel.add(buttonTakeAir);
+
+        listBoxLevels = new JList();
+        listBoxLevels.setBounds(790, 11, 118, 118);
+        frame.getContentPane().add(listBoxLevels);
+        model = new DefaultListModel();
+        for(int i = 0; i < 5; i++)
+        {
+            model.addElement("Уровень " + (i + 1));
+        }
+        listBoxLevels.setModel(model);
+        listBoxLevels.setSelectedIndex(0);
+        panelHangar.setListLevels(listBoxLevels);
+        listBoxLevels.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                panelHangar.repaint();
+            }
+        });
+
     }
 }

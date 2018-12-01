@@ -1,24 +1,31 @@
 package com.dyrno4kin;
-
+import javax.swing.JList;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
 public class PanelHangar extends JPanel{
-    public  Hangar<IAir> hangar;
-
-    public Hangar<IAir> getHangar() {
+    private  MultiLevelHangar hangar;
+    private JList listBoxLevels;
+    public final int countLevel = 5;
+    public MultiLevelHangar getHangar() {
         return hangar;
     }
-
     public PanelHangar() {
-        hangar = new Hangar<>(20, 615, 603);
+        hangar = new MultiLevelHangar(countLevel, 615, 603);
     }
 
+    public void setListLevels(JList listBoxLevels) {
+        this.listBoxLevels = listBoxLevels;
+    }
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if(hangar != null) {
-            hangar.Draw(g);
+        int selectedLevel = listBoxLevels.getSelectedIndex();
+        hangar.getHangar(selectedLevel).Draw(g);
+        if(selectedLevel != -1){
+            if(hangar != null) {
+                hangar.getHangar(selectedLevel).Draw(g);
+            }
         }
     }
 }

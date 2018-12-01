@@ -75,7 +75,7 @@ class Hangar<T extends IAir> {
     public void Draw(Graphics g)
     {
         DrawMarking(g);
-        for (int i = 0; i < _maxCount; i++)
+        for (int i = 0; i < _places.keySet().toArray().length; i++)
         {
             _places.get(_places.keySet().toArray()[i]).DrawAir(g);
         }

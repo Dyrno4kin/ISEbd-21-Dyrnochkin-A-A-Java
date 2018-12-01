@@ -74,10 +74,10 @@ class Hangar<T extends IAir> {
         {
             for (int j = 0; j < 6; ++j)
             {
-                g.drawRect(i * _placeSizeWidth, j * _placeSizeHeight, 110, 5 );
-                Color nc = new Color(200,200,200);
+                g.drawRect(i * _placeSizeWidth, j * _placeSizeHeight, 160, 5 );
+                Color nc = new Color(0,0,0);
                 g.setColor(nc);
-                g.fillRect(i * _placeSizeWidth, j * _placeSizeHeight, 110, 5);
+                g.fillRect(i * _placeSizeWidth, j * _placeSizeHeight, 160, 5);
             }
             g.setColor(newColor3);
             g.drawLine( i * _placeSizeWidth, 0, i * _placeSizeWidth, 400);

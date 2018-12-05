@@ -2,7 +2,6 @@ package com.dyrno4kin;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.HashMap;
 class Hangar<T extends IAir> {
     private HashMap<Integer,T> _places;

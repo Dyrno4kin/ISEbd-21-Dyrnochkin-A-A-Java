@@ -20,6 +20,8 @@ public class FormHangar {
     private JPanel panel;
     private JList listBoxLevels;
     private DefaultListModel model;
+    private JPanel panelTake;
+    private int countLevel = 5;
     private JTextField maskedTextBox1;
     MultiLevelHangar hangar;
     private PanelAir pictureBoxTakeAir;
@@ -52,7 +54,7 @@ public class FormHangar {
      */
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 1050, 503);
+        frame.setBounds(100, 100, 980, 503);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         panelHangar= new PanelHangar();
@@ -63,30 +65,22 @@ public class FormHangar {
         pictureBoxHangar.setBounds(0, 0, 778, 466);
         frame.getContentPane().add(pictureBoxHangar);
 
-        JButton buttonSetAir = new JButton("Cамолет");
+        JButton buttonSetAir = new JButton("Заказать самолет");
         buttonSetAir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                Color mainColor = JColorChooser.showDialog(null, "Choose a color", Color.GRAY);
-                Air air = new Air(100, 1000, mainColor);
-                int place = hangar.getHangar(listBoxLevels.getSelectedIndex()).Plus(air);
-                panelHangar.repaint();
-            }
-        });
-        buttonSetAir.setBounds(790, 141, 118, 41);
-        frame.getContentPane().add(buttonSetAir);
 
-        JButton buttonSetAirBus = new JButton("Аэробус");
-        buttonSetAirBus.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Color mainColor = JColorChooser.showDialog(null, "Choose a color", Color.GRAY);
-                Color dopColor = JColorChooser.showDialog(null, "Choose a color", Color.GRAY);
-                AirBus air = new AirBus(100, 1000, mainColor, dopColor);
-                int place = hangar.getHangar(listBoxLevels.getSelectedIndex()).Plus(air);
-                panelHangar.repaint();
+                if (listBoxLevels.getSelectedIndex() > -1) {
+                    DialogConfig dConfig = new DialogConfig(frame);
+                    if (dConfig.isSuccessful()) {
+                        PanelTakeHangar.air = dConfig.getAir();
+                        int i = hangar.getHangar(listBoxLevels.getSelectedIndex()).Plus(PanelTakeHangar.air);
+                        panelHangar.repaint();
+                    }
+                }
             }
         });
-        buttonSetAirBus.setBounds(790, 182, 118, 41);
-        frame.getContentPane().add(buttonSetAirBus);
+        buttonSetAir.setBounds(790, 141,  140, 41);
+        frame.getContentPane().add(buttonSetAir);
 
         JPanel panel = new JPanel();
         panel.setBounds(779, 226, 250, 230);

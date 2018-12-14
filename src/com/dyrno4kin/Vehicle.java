@@ -20,12 +20,40 @@ abstract public class Vehicle implements IAir {
     protected void setWeight(int Weight){
         this.Weight = Weight;
     }
-    protected Color MainColor;
+    protected Color mainColor;
     public Color getMainColor(){
-        return MainColor;
+        return mainColor;
     }
-    protected void setMainColor(Color MainColor){
-        this.MainColor = MainColor;
+    protected void setMainColor(Color mainColor){ this.mainColor = mainColor; }
+    @Override
+    public void setMainColor(String colorName){
+        switch (colorName) {
+            case "yellow":
+                mainColor = Color.YELLOW;
+                break;
+            case "blue":
+                mainColor = Color.BLUE;
+                break;
+            case "pink":
+                mainColor = Color.PINK;
+                break;
+            case "green":
+                mainColor = Color.GREEN;
+                break;
+            case "black":
+                mainColor = Color.BLACK;
+                break;
+            case "orange":
+                mainColor = Color.ORANGE;
+                break;
+            case "cyan":
+                mainColor = Color.CYAN;
+                break;
+            case "magenta":
+                mainColor = Color.MAGENTA;
+                break;
+        }
+
     }
     public void SetPosition(int x, int y, int width, int height)
     {

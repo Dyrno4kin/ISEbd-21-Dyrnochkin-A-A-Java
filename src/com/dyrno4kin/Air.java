@@ -6,10 +6,10 @@ public class Air extends Vehicle {
     private int airWidth = 100;
     private int airHeight = 60;
 
-    public Air(int maxSpeed, float weight, Color mainColor) {
-        MaxSpeed = maxSpeed;
-        Weight = weight;
-        MainColor = mainColor;
+    public Air(int maxSpeed, int weight, Color mainColor) {
+        setMaxSpeed(maxSpeed);
+        setWeight(weight);
+        setMainColor(mainColor);
     }
 
     public void MoveTransport(Direction direction) {
@@ -40,7 +40,7 @@ public class Air extends Vehicle {
     }
 
     public void DrawAir(Graphics g) {
-        g.setColor(MainColor);
+        g.setColor(mainColor);
         g.fillOval((int)_startPosX + 110, (int)_startPosY + 13, 40, 20);
         g.fillRect((int)_startPosX + 55, (int)_startPosY + 5, 69, 28);
         g.fillRect((int)_startPosX + 21, (int)_startPosY - 25, 15, 31);
@@ -48,7 +48,6 @@ public class Air extends Vehicle {
         g.fillOval((int)_startPosX + 120, (int)_startPosY + 4, 15, 10);
         g.fillOval((int)_startPosX + 125, (int)_startPosY + 11, 15, 10);
         g.fillOval((int)_startPosX + 123, (int)_startPosY + 10, 15, 10);
-        g.setColor(MainColor);
         int yPos = 32;
         while (yPos > 4)
         {

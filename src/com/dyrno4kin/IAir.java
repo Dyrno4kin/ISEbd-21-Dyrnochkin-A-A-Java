@@ -7,4 +7,5 @@ public interface IAir {
     void MoveTransport(Direction direction);
     void DrawAir(Graphics g);
     void setMainColor(String colorName);
+    String getInfo();
 }

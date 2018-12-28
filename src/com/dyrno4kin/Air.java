@@ -12,6 +12,15 @@ public class Air extends Vehicle {
         setMainColor(mainColor);
     }
 
+    public Air(String info) {
+        String[] str = info.split(";");
+        if(str.length == 5) {
+            MaxSpeed = Integer.parseInt(str[0]);
+            Weight = Float.parseFloat(str[1]);
+            mainColor = new Color(Integer.parseInt(str[2]), Integer.parseInt(str[3]), Integer.parseInt(str[4]));
+        }
+    }
+
     public void MoveTransport(Direction direction) {
 
         float step = getMaxSpeed() * 100 / getWeight();
@@ -56,5 +65,11 @@ public class Air extends Vehicle {
         }
         g.setColor(Color.blue);
         g.fillOval((int)_startPosX + 120, (int)_startPosY + 9, 12, 6);
+    }
+
+    @Override
+    public String getInfo() {
+        return MaxSpeed + ";" + Weight + ";"  + mainColor.getRed() + ";"
+                + mainColor.getGreen() + ";" + mainColor.getBlue();
     }
 }

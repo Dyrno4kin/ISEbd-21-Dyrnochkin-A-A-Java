@@ -66,4 +66,6 @@ abstract public class Vehicle implements IAir {
     public abstract void DrawAir(Graphics g);
 
     public abstract void MoveTransport(Direction direction);
+
+    public abstract String getInfo();
 }

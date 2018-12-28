@@ -44,6 +44,17 @@ public class AirBus extends Air {
         setDopColor(dopColor);
     }
 
+    public AirBus(String info) {
+        super(info);
+        String[] str = info.split(";");
+        if(str.length == 8) {
+            MaxSpeed = Integer.parseInt(str[0]);
+            Weight = Float.parseFloat(str[1]);
+            mainColor = new Color(Integer.parseInt(str[2]), Integer.parseInt(str[3]), Integer.parseInt(str[4]));
+            dopColor = new Color(Integer.parseInt(str[5]), Integer.parseInt(str[6]), Integer.parseInt(str[7]));
+        }
+    }
+
     public void DrawAir(Graphics g) {
         super.DrawAir(g);
         g.setColor(mainColor);
@@ -55,6 +66,14 @@ public class AirBus extends Air {
         g.fillRect((int)_startPosX + 5, (int)_startPosY - 16, 40, 6);
         g.setColor(dopColor);
         g.fillOval((int)_startPosX + 120, (int)_startPosY + 3, 10, 10);
+    }
+
+    @Override
+    public String getInfo() {
+        return MaxSpeed + ";" + Weight + ";" + mainColor.getRed() + ";"
+                + mainColor.getGreen() + ";" +  mainColor.getBlue() + ";"
+                + dopColor.getRed() + ";" + dopColor.getGreen() + ";"
+                + dopColor.getBlue();
     }
 }
 

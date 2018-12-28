@@ -97,4 +97,18 @@ class Hangar<T extends IAir> {
             g.drawLine( i * _placeSizeWidth, 0, i * _placeSizeWidth, 400);
         }
     }
+
+    public T getAir(int index) {
+        if (_places.get(index) != null) {
+            return _places.get(index);
+        } else {
+            return null;
+        }
+    }
+    public void setAir(int index, T ship) {
+        if(CheckFreePlace(index)) {
+            _places.put(index, ship);
+            _places.get(index).SetPosition(5 + index / 5 * _placeSizeWidth + 5, index % 5 * _placeSizeHeight + 35, PictureWidth, PictureHeight);
+        }
+    }
 }

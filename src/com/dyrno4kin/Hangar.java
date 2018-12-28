@@ -34,11 +34,11 @@ class Hangar<T extends IAir> {
         PictureHeight = pictureHeight;
     }
 
-    public int Plus(T air)
+    public int Plus(T air)throws HangarOverflowException
     {
         if (_places.size() == _maxCount)
         {
-            return -1;
+            throw new HangarOverflowException();
         }
         for (int i = 0; i < _maxCount; i++)
         {
@@ -52,7 +52,7 @@ class Hangar<T extends IAir> {
         return -1;
     }
 
-    public  T Minus( int index)
+    public  T Minus( int index)throws HangarNotFoundException
     {
         if (index < 0 || index > _maxCount)
         {
@@ -64,7 +64,7 @@ class Hangar<T extends IAir> {
             _places.remove(index);
             return air;
         }
-        return null;
+        throw new HangarNotFoundException(index);
     }
 
     private boolean CheckFreePlace(int index)
@@ -98,17 +98,18 @@ class Hangar<T extends IAir> {
         }
     }
 
-    public T getAir(int index) {
+    public T getAir(int index) throws  HangarNotFoundException{
         if (_places.get(index) != null) {
             return _places.get(index);
-        } else {
-            return null;
-        }
+        }  throw new HangarNotFoundException(index);
     }
-    public void setAir(int index, T ship) {
+    public void setAir(int index, T ship) throws HangarOccupiedPlaceException{
         if(CheckFreePlace(index)) {
             _places.put(index, ship);
             _places.get(index).SetPosition(5 + index / 5 * _placeSizeWidth + 5, index % 5 * _placeSizeHeight + 35, PictureWidth, PictureHeight);
+        }
+        else{
+            throw new HangarOccupiedPlaceException(index);
         }
     }
 }

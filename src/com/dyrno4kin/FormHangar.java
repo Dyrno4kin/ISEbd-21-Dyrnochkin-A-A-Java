@@ -1,5 +1,8 @@
 package com.dyrno4kin;
-
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.awt.EventQueue;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
@@ -31,6 +34,8 @@ public class FormHangar {
     MultiLevelHangar hangar;
     private PanelAir pictureBoxTakeAir;
     private PanelHangar panelHangar;
+    FileHandler fh;
+    private static Logger logger= Logger.getLogger(FormHangar.class.getName());
     /**
      * Launch the application.
      */
@@ -62,6 +67,18 @@ public class FormHangar {
         frame.setBounds(100, 100, 980, 503);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
+
+        try {
+            fh = new FileHandler("C:\\Users\\adres\\Desktop//log.txt");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+        } catch (SecurityException ex){
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
         JMenuBar menuBar = new JMenuBar();
         frame.setJMenuBar(menuBar);
 
@@ -77,10 +94,12 @@ public class FormHangar {
                 if (filesave.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
                     File file = filesave.getSelectedFile();
                     String path = file.getAbsolutePath();
-                    if (hangar.saveData(path)) {
+                    try{
+                        hangar.saveData(path);
                         JOptionPane.showMessageDialog(null, "Saved");
-                        return;
-                    } else {
+                        logger.info("Сохранено в файл " + file.getName());
+                    }
+                    catch(Exception ex){
                         JOptionPane.showMessageDialog(null, "Save failed", "", 0, null);
                     }
                 }
@@ -97,13 +116,14 @@ public class FormHangar {
                 if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                     File file = fileChooser.getSelectedFile();
                     try {
-                        if (hangar.loadData(file.getAbsolutePath())) {
-                            JOptionPane.showMessageDialog(null, "Loaded");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Load failed", "", 0, null);
-                        }
+                        hangar.loadData(file.getAbsolutePath());
+                        JOptionPane.showMessageDialog(null, "Loaded");
+                        logger.info("Загружено из файла " + file.getName());
+                    } catch (HangarOccupiedPlaceException ex) {
+                        JOptionPane.showMessageDialog(null, "Занято место", ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage(), "", 0, null);
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Load failed", 0, null);
                     }
                     panelHangar.repaint();
                 }
@@ -125,11 +145,18 @@ public class FormHangar {
             public void actionPerformed(ActionEvent arg0) {
 
                 if (listBoxLevels.getSelectedIndex() > -1) {
-                    DialogConfig dConfig = new DialogConfig(frame);
-                    if (dConfig.isSuccessful()) {
-                        PanelTakeHangar.air = dConfig.getAir();
-                        int i = hangar.getHangar(listBoxLevels.getSelectedIndex()).Plus(PanelTakeHangar.air);
-                        panelHangar.repaint();
+                    try{
+                        DialogConfig dConfig = new DialogConfig(frame);
+                        if (dConfig.isSuccessful()) {
+                            PanelTakeHangar.air = dConfig.getAir();
+                            int i = hangar.getHangar(listBoxLevels.getSelectedIndex()).Plus(PanelTakeHangar.air);
+                            logger.info("Добавлен самолет " + PanelTakeHangar.air.getInfo() + " на место " + i);
+                            panelHangar.repaint();
+                        }
+                    }catch(HangarOverflowException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Переполнение", JOptionPane.ERROR_MESSAGE);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Неизвестная ошибка", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -163,16 +190,17 @@ public class FormHangar {
         buttonTakeAir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!maskedTextBox1.getText().equals("")) {
-                    IAir air = hangar.getHangar(listBoxLevels.getSelectedIndex()).Minus(Integer.parseInt(maskedTextBox1.getText()));
-                    if (air != null) {
-                        air.SetPosition(5,50, pictureBoxTakeAir.getWidth(), pictureBoxTakeAir.getHeight());
+                    try{
+                        IAir air = hangar.getHangar(listBoxLevels.getSelectedIndex()).Minus(Integer.parseInt(maskedTextBox1.getText()));
+                        air.SetPosition(5, 5, pictureBoxTakeAir.getWidth(), pictureBoxTakeAir.getHeight());
                         pictureBoxTakeAir.setAir(air);
                         pictureBoxTakeAir.repaint();
                         panelHangar.repaint();
-                    } else {
-                        pictureBoxTakeAir.setAir(null);
-                        pictureBoxTakeAir.repaint();
+                        logger.info("Изъят самолет " + air.getInfo() + " с места " + maskedTextBox1.getText());
+                    } catch(HangarNotFoundException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Не найдено", JOptionPane.ERROR_MESSAGE);
                     }
+                    panelHangar.repaint();
                 }
             }
         });

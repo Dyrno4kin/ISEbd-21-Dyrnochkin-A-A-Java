@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class MultiLevelHangar {
@@ -29,7 +30,7 @@ public class MultiLevelHangar {
         return null;
     }
 
-    public boolean saveData(String filename) {
+    public void saveData(String filename) {
         File file = new File(filename);
         if (file.exists()) {
             file.delete();
@@ -39,8 +40,8 @@ public class MultiLevelHangar {
             for (Hangar<IAir> level : parkingStages) {
                 writeToFile("Level" + System.lineSeparator(), bw);
                 for (int i = 0; i < countPlaces; i++) {
-                    IAir air = level.getAir(i);
-                    if (air != null) {
+                    try{
+                        IAir air = level.getAir(i);
                         if (air.getClass().getSimpleName().equals("Air")) {
                             writeToFile(i + ":Air:" + air.getInfo(), bw);
                         }
@@ -48,13 +49,12 @@ public class MultiLevelHangar {
                             writeToFile(i + ":AirBus:" + air.getInfo(), bw);
                         }
                         writeToFile(System.lineSeparator(), bw);
-                    }
+                    }catch(Exception ex){ }
+                	finally { }
                 }
             }
-            return true;
         } catch (Exception ex) {
             System.out.println(ex);
-            return false;
         }
     }
 
@@ -67,10 +67,10 @@ public class MultiLevelHangar {
         }
     }
 
-    public boolean loadData(String filename) {
+    public void loadData(String filename)throws Exception {
         File file = new File(filename);
         if (!file.exists()) {
-            return false;
+            throw new FileNotFoundException();
         }
         String bufferTextFromFile = "";
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -86,7 +86,7 @@ public class MultiLevelHangar {
                 }
                 parkingStages = new ArrayList<Hangar<IAir>>(count);
             } else {
-                return false;
+                throw new Exception("Неверный формат файла");
             }
             int counter = -1;
             IAir air = null;
@@ -106,10 +106,7 @@ public class MultiLevelHangar {
                 }
                 parkingStages.get(counter).setAir(Integer.parseInt(strs[i].split(":")[0]), air);
             }
-            return true;
         } catch (Exception e) {
-            System.out.println(e);
-        }
-        return false;
+            throw e;        }
     }
 }
